@@ -15,13 +15,7 @@ macro bind(def, element)
 end
 
 # ╔═╡ e70ff28c-8555-11ee-3655-8b281a850fb3
-begin
-	import Pkg
-	Pkg.activate(Base.current_project())
-	Pkg.instantiate()
-
-	using ReachabilityAnalysis, Plots
-end
+using ReachabilityAnalysis, Plots
 
 # ╔═╡ bf31bfe5-041f-4f8d-a9d6-906754805463
 md"""## Introduction
