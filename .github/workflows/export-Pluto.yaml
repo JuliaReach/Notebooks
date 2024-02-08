@@ -1,0 +1,57 @@
+# https://github.com/JuliaPluto/static-export-template/blob/main/.github/workflows/ExportPluto.yaml
+name: Export Pluto notebooks to HTML
+on:
+  push:
+    branches:
+      - master
+    paths-ignore:
+      - 'LICENSE'
+      - 'README.md'
+  workflow_dispatch:
+concurrency:
+  # cancel intermediate builds
+  group: pluto-export
+  cancel-in-progress: true
+permissions:
+  contents: write
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v3
+      - name: Set up Julia
+        uses: julia-actions/setup-julia@v1
+        with:
+          version: '1'
+      - name: Cache artifacts
+        uses: julia-actions/cache@v1
+      # if notebook file did not change, take the cached file instead of running the notebook
+      - name: Set up notebook cache
+        uses: actions/cache@v3
+        with:
+          path: pluto_state_cache
+          key: ${{ runner.os }}-pluto_state_cache-v2-${{ hashFiles('**/Project.toml', '**/Manifest.toml', '.github/workflows/*' ) }}-${{ hashFiles('**/*jl') }}
+          restore-keys: |
+            ${{ runner.os }}-pluto_state_cache-v2-${{ hashFiles('**/Project.toml', '**/Manifest.toml', '.github/workflows/*' ) }}
+      - name: Run & export Pluto notebooks
+        run: |
+          julia -e 'using Pkg;
+            Pkg.activate(mktempdir());
+            Pkg.add([
+              Pkg.PackageSpec(name="PlutoSliderServer", version="0.3.2-0.3"),
+            ]);
+            import PlutoSliderServer;
+            PlutoSliderServer.github_action("notebooks";
+              Export_cache_dir="pluto_state_cache",
+              Export_baked_notebookfile=false,
+              Export_baked_state=false,
+              # more parameters can go here
+            )'
+      - name: Deploy to gh-pages
+        uses: JamesIves/github-pages-deploy-action@releases/v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: gh-pages
+          folder: .
+          single-commit: true
