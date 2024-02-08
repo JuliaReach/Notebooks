@@ -41,7 +41,9 @@ $x(t) = [u(t), v(t)]^T$. Then we can rewrite the system in the following first o
 """
 
 # ╔═╡ 1a547eec-1829-4239-8f56-45fe8d2a1f98
-md"""## Reachability computation"""
+md"""## Reachability computation
+
+(The code is hidden for brevity.)"""
 
 # ╔═╡ 5a5d78e6-76c7-4b6c-933a-a922effb11c2
 begin
@@ -2269,10 +2271,10 @@ version = "1.4.1+1"
 # ╠═e70ff28c-8555-11ee-3655-8b281a850fb3
 # ╟─bf31bfe5-041f-4f8d-a9d6-906754805463
 # ╟─1a547eec-1829-4239-8f56-45fe8d2a1f98
-# ╠═5a5d78e6-76c7-4b6c-933a-a922effb11c2
+# ╟─5a5d78e6-76c7-4b6c-933a-a922effb11c2
 # ╟─6057597d-de46-475c-8614-096ac1ff02df
 # ╟─e0d29d49-b78e-48fc-ad9b-8f9754cfdf98
-# ╠═bbd4fee9-cdcc-4640-b69e-c2a7b2e07ee2
+# ╟─bbd4fee9-cdcc-4640-b69e-c2a7b2e07ee2
 # ╟─84f05e80-a149-464b-85b3-8b07540cac17
 # ╠═0d99a847-c6af-4019-b955-ffa2f32492c8
 # ╠═43d0a3f1-170d-4d58-9b6b-3201109d9677
