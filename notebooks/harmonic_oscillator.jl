@@ -45,7 +45,6 @@ md"""## Reachability computation"""
 
 # ╔═╡ 5a5d78e6-76c7-4b6c-933a-a922effb11c2
 begin
-
 # Source: https://github.com/JuliaReach/SetPropagation-FEM-Examples/tree/main/examples/SDOF
 
 # ### Equations of motion
@@ -124,16 +123,21 @@ function sdof(; T=0.5,     # period
     prob = @ivp(X' = AX, X(0) ∈ X0)
     return SDOF(prob, X0, ω, Ampl, T)
 end
+
+problem = sdof()
+T = problem.T
+
+nothing
 end
 
 # ╔═╡ e0d29d49-b78e-48fc-ad9b-8f9754cfdf98
 @bind α html"<input type=range min=0.001 max=0.1 step=0.01>"
 
+# ╔═╡ 6057597d-de46-475c-8614-096ac1ff02df
+md"Step size αT = $(α * T)"
+
 # ╔═╡ bbd4fee9-cdcc-4640-b69e-c2a7b2e07ee2
 begin
-problem = sdof()
-T = problem.T
-
 model = StepIntersect(setops=:concrete)
 
 # alg = VREP(δ=α*T, approx_model=model)
@@ -146,10 +150,12 @@ solglg = solve(problem.ivp, tspan=(0.0, T), alg=alg);
 # solbox = solve(prob, tspan=(0.0, tmax), alg=alg);
 
 # For plots: https://docs.juliaplots.org/stable/gallery/gr/generated/gr-ref016/#gr_ref016
+
+nothing
 end
 
-# ╔═╡ 6057597d-de46-475c-8614-096ac1ff02df
-md"Step size αT = $(α * T) :"
+# ╔═╡ 84f05e80-a149-464b-85b3-8b07540cac17
+md"""## Results"""
 
 # ╔═╡ 0d99a847-c6af-4019-b955-ffa2f32492c8
 plot(solglg, vars=(0, 1), xlab="t", ylab="u(t)")
@@ -2263,10 +2269,11 @@ version = "1.4.1+1"
 # ╠═e70ff28c-8555-11ee-3655-8b281a850fb3
 # ╟─bf31bfe5-041f-4f8d-a9d6-906754805463
 # ╟─1a547eec-1829-4239-8f56-45fe8d2a1f98
-# ╟─5a5d78e6-76c7-4b6c-933a-a922effb11c2
+# ╠═5a5d78e6-76c7-4b6c-933a-a922effb11c2
 # ╟─6057597d-de46-475c-8614-096ac1ff02df
 # ╟─e0d29d49-b78e-48fc-ad9b-8f9754cfdf98
-# ╟─bbd4fee9-cdcc-4640-b69e-c2a7b2e07ee2
+# ╠═bbd4fee9-cdcc-4640-b69e-c2a7b2e07ee2
+# ╟─84f05e80-a149-464b-85b3-8b07540cac17
 # ╠═0d99a847-c6af-4019-b955-ffa2f32492c8
 # ╠═43d0a3f1-170d-4d58-9b6b-3201109d9677
 # ╠═1bd941f2-e1fa-446e-a489-4b1c87be97ed
