@@ -1,3 +1,3 @@
 # Available notebooks
 
-* [Harmonic Oscillator](notebooks/harmonic_oscillator)
+* [Harmonic oscillator](notebooks/harmonic_oscillator)
