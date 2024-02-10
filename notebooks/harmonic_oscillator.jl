@@ -4,16 +4,6 @@
 using Markdown
 using InteractiveUtils
 
-# This Pluto notebook uses @bind for interactivity. When running this notebook outside of Pluto, the following 'mock version' of @bind gives bound variables a default value (instead of an error).
-macro bind(def, element)
-    quote
-        local iv = try Base.loaded_modules[Base.PkgId(Base.UUID("6e696c72-6542-2067-7265-42206c756150"), "AbstractPlutoDingetjes")].Bonds.initial_value catch; b -> missing; end
-        local el = $(esc(element))
-        global $(esc(def)) = Core.applicable(Base.get, el) ? Base.get(el) : iv(el)
-        el
-    end
-end
-
 # ╔═╡ e70ff28c-8555-11ee-3655-8b281a850fb3
 using ReachabilityAnalysis, Plots
 
@@ -40,10 +30,8 @@ $x(t) = [u(t), v(t)]^T$. Then we can rewrite the system in the following first o
 ```
 """
 
-# ╔═╡ 1a547eec-1829-4239-8f56-45fe8d2a1f98
-md"""## Reachability computation
-
-(The code is hidden for brevity.)"""
+# ╔═╡ 524a3e44-f7dd-467e-974b-acbda4275ae6
+md"""## Problem definition"""
 
 # ╔═╡ 5a5d78e6-76c7-4b6c-933a-a922effb11c2
 begin
@@ -126,30 +114,26 @@ function sdof(; T=0.5,     # period
     return SDOF(prob, X0, ω, Ampl, T)
 end
 
-problem = sdof()
-T = problem.T
-
 nothing
 end
 
-# ╔═╡ e0d29d49-b78e-48fc-ad9b-8f9754cfdf98
-@bind α html"<input type=range min=0.001 max=0.1 step=0.01>"
-
-# ╔═╡ 6057597d-de46-475c-8614-096ac1ff02df
-md"Step size αT = $(α * T)"
+# ╔═╡ 1a547eec-1829-4239-8f56-45fe8d2a1f98
+md"""## Reachability computation"""
 
 # ╔═╡ bbd4fee9-cdcc-4640-b69e-c2a7b2e07ee2
 begin
+problem = sdof()
+T = problem.T
 model = StepIntersect(setops=:concrete)
 
-# alg = VREP(δ=α*T, approx_model=model)
-# solvrep = solve(prob, tspan=(0.0, tmax), alg=alg);
+# alg = VREP(δ=0.01, approx_model=model)
+# solvrep = solve(problem.ivp, tspan=(0.0, T), alg=alg);
 
-alg = GLGM06(δ=α*T, approx_model=model)
+alg = GLGM06(δ=0.01, approx_model=model)
 solglg = solve(problem.ivp, tspan=(0.0, T), alg=alg);
 
-# alg = BOX(δ=α*T, approx_model=model)
-# solbox = solve(prob, tspan=(0.0, tmax), alg=alg);
+# alg = BOX(δ=0.01, approx_model=model)
+# solbox = solve(problem.ivp, tspan=(0.0, T), alg=alg);
 
 # For plots: https://docs.juliaplots.org/stable/gallery/gr/generated/gr-ref016/#gr_ref016
 
@@ -2270,11 +2254,10 @@ version = "1.4.1+1"
 # ╔═╡ Cell order:
 # ╠═e70ff28c-8555-11ee-3655-8b281a850fb3
 # ╟─bf31bfe5-041f-4f8d-a9d6-906754805463
+# ╟─524a3e44-f7dd-467e-974b-acbda4275ae6
+# ╠═5a5d78e6-76c7-4b6c-933a-a922effb11c2
 # ╟─1a547eec-1829-4239-8f56-45fe8d2a1f98
-# ╟─5a5d78e6-76c7-4b6c-933a-a922effb11c2
-# ╟─6057597d-de46-475c-8614-096ac1ff02df
-# ╟─e0d29d49-b78e-48fc-ad9b-8f9754cfdf98
-# ╟─bbd4fee9-cdcc-4640-b69e-c2a7b2e07ee2
+# ╠═bbd4fee9-cdcc-4640-b69e-c2a7b2e07ee2
 # ╟─84f05e80-a149-464b-85b3-8b07540cac17
 # ╠═0d99a847-c6af-4019-b955-ffa2f32492c8
 # ╠═43d0a3f1-170d-4d58-9b6b-3201109d9677
