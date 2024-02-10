@@ -135,8 +135,6 @@ solglg = solve(problem.ivp, tspan=(0.0, T), alg=alg);
 # alg = BOX(δ=0.01, approx_model=model)
 # solbox = solve(problem.ivp, tspan=(0.0, T), alg=alg);
 
-# For plots: https://docs.juliaplots.org/stable/gallery/gr/generated/gr-ref016/#gr_ref016
-
 nothing
 end
 
@@ -151,6 +149,8 @@ plot(solglg, vars=(0, 2), xlab="t", ylab="u'(t)")
 
 # ╔═╡ 1bd941f2-e1fa-446e-a489-4b1c87be97ed
 plot(solglg, vars=(1, 2), xlab="u(t)", ylab="u'(t)")
+
+# For plots: https://docs.juliaplots.org/stable/gallery/gr/generated/gr-ref016/#gr_ref016
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
